@@ -1,0 +1,4 @@
+# Written on the server by the deployment repository; never committed.
+.env
+# What the container stores: the databases, the photos, their dumps.
+data/
