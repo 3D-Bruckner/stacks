@@ -1,6 +1,6 @@
 version: 2
 updates:
   - package-ecosystem: docker-compose
-    directories: ["/upload"]
+    directories: ["/portfolio"]
     schedule:
       interval: weekly

@@ -3,18 +3,18 @@
 #
 #   dump.sh <kind> <days to keep>      e.g.  dump.sh hourly 1
 #
-# Each run makes a folder <kind>-<time>/ with upload.sqlite (the prints), auth.sqlite (sign-in, sessions, passkeys, tokens,
-# connected clients) and photos/ (originals and cutouts; thumbnails are left out, upload makes them again). The databases are
-# consistent `sqlite3 .backup` copies taken while upload writes (needs sqlite3 on the host, and to run as the user the container
-# runs as, 1000), checked with PRAGMA integrity_check. The photos are hard links: upload writes a photo under a temporary name and
+# Each run makes a folder <kind>-<time>/ with portfolio.sqlite (the prints), auth.sqlite (sign-in, sessions, passkeys, tokens,
+# connected clients) and photos/ (originals and cutouts; thumbnails are left out, portfolio makes them again). The databases are
+# consistent `sqlite3 .backup` copies taken while portfolio writes (needs sqlite3 on the host, and to run as the user the container
+# runs as, 1000), checked with PRAGMA integrity_check. The photos are hard links: portfolio writes a photo under a temporary name and
 # renames it into place, never changing a file, so a link keeps the photo as it was and costs no space. The photos are copied first:
-# upload writes a photo's files before its row, so every row in the copy has its files. The folder gets its real name only once all
+# portfolio writes a photo's files before its row, so every row in the copy has its files. The folder gets its real name only once all
 # of it is whole; old folders of the kind are removed only after a new one succeeded. The secret is not in a dump: on the server it is
 # PORTFOLIO_SECRET in the deployment's vault.
 #
-# To restore, with upload stopped (docker compose stop portfolio; docker compose start portfolio afterwards):
-#   rm -f data/upload.sqlite-wal data/upload.sqlite-shm data/auth.sqlite-wal data/auth.sqlite-shm
-#   cp data/dumps/<kind>-<time>/upload.sqlite data/dumps/<kind>-<time>/auth.sqlite data/
+# To restore, with portfolio stopped (docker compose stop portfolio; docker compose start portfolio afterwards):
+#   rm -f data/portfolio.sqlite-wal data/portfolio.sqlite-shm data/auth.sqlite-wal data/auth.sqlite-shm
+#   cp data/dumps/<kind>-<time>/portfolio.sqlite data/dumps/<kind>-<time>/auth.sqlite data/
 #   rm -rf data/photos && cp -a data/dumps/<kind>-<time>/photos data/photos
 set -euo pipefail
 
@@ -44,7 +44,7 @@ if [[ -d $data/photos ]]; then
     done
 fi
 
-for db in upload auth; do
+for db in portfolio auth; do
   [[ -f $data/$db.sqlite ]] || { echo "dump: $data/$db.sqlite is missing" >&2; exit 1; }
   sqlite3 "$data/$db.sqlite" ".backup '$tmp/$db.sqlite'"
   [[ $(sqlite3 "$tmp/$db.sqlite" 'PRAGMA integrity_check;') == ok ]] || { echo "dump: the copy of $db.sqlite is not intact" >&2; exit 1; }

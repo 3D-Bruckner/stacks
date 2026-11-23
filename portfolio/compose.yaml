@@ -1,9 +1,9 @@
 # portfolio.3dbruckner.de: portfolio (https://github.com/3D-Bruckner/portfolio), where 3dbruckner.de's prints are put in. Nothing here is
-# published to the internet: upload listens on the server's private address, where the Caddy on gewerbe-1 passes requests on.
+# published to the internet: portfolio listens on the server's private address, where the Caddy on gewerbe-1 passes requests on.
 name: portfolio
 services:
   portfolio:
-    # main until upload has releases: every deployment pulls the newest (pull_policy), so an upgrade is a merge there and a deployment.
+    # main until portfolio has releases: every deployment pulls the newest (pull_policy), so an upgrade is a merge there and a deployment.
     image: ghcr.io/3d-bruckner/portfolio:main
     pull_policy: always
     container_name: portfolio
@@ -17,7 +17,7 @@ services:
     mem_limit: 512m
     # Every setting, secrets included, from .env (see .env.example).
     env_file: .env
-    # upload.sqlite (the prints), auth.sqlite (sign-in), photos/ (originals, cutouts, thumbnails) and dumps/ (scripts/dump.sh).
+    # portfolio.sqlite (the prints), auth.sqlite (sign-in), photos/ (originals, cutouts, thumbnails) and dumps/ (scripts/dump.sh).
     # The image runs as the owner of ./data (1000).
     volumes:
       - ./data:/data
