@@ -1,6 +1,6 @@
 # stacks
 
-How [upload.3dbruckner.de](https://upload.3dbruckner.de) runs [upload](https://github.com/3D-Bruckner/upload): the compose file of the server and what it needs. Public, as Gamepanion's and notefeed's are; take what is useful.
+How [portfolio.3dbruckner.de](https://portfolio.3dbruckner.de) runs [upload](https://github.com/3D-Bruckner/portfolio): the compose file of the server and what it needs. Public, as Gamepanion's and notefeed's are; take what is useful.
 
 | Folder    | What runs                                                                                        | Reachable                                                                                         |
 | --------- | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------- |

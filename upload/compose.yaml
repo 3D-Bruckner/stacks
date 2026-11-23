@@ -1,17 +1,18 @@
-# upload.3dbruckner.de: upload (https://github.com/3D-Bruckner/upload), where 3dbruckner.de's prints are put in. Nothing here is
+# portfolio.3dbruckner.de: portfolio (https://github.com/3D-Bruckner/portfolio), where 3dbruckner.de's prints are put in. Nothing here is
 # published to the internet: upload listens on the server's private address, where the Caddy on gewerbe-1 passes requests on.
+name: portfolio
 services:
-  upload:
+  portfolio:
     # main until upload has releases: every deployment pulls the newest (pull_policy), so an upgrade is a merge there and a deployment.
-    image: ghcr.io/3d-bruckner/upload:main
+    image: ghcr.io/3d-bruckner/portfolio:main
     pull_policy: always
-    container_name: upload
+    container_name: portfolio
     # Monitored by Uptime Kuma (AutoKuma reads these labels), past Caddy, over the private network from gewerbe-1; the
     # public name is checked at Caddy there.
     labels:
-      kuma.upload.http.name: upload (direct)
-      kuma.upload.http.url: http://${PRIVATE_IP}:8083/health
-      kuma.upload.http.parent_name: host-group
+      kuma.portfolio.http.name: portfolio (direct)
+      kuma.portfolio.http.url: http://${PRIVATE_IP}:8083/health
+      kuma.portfolio.http.parent_name: host-group
     restart: unless-stopped
     mem_limit: 512m
     # Every setting, secrets included, from .env (see .env.example).
