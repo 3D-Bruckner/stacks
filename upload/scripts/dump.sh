@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# One copy of upload's data into ../data/dumps, and the old copies of the same kind removed.
+# One copy of portfolio's data into ../data/dumps, and the old copies of the same kind removed.
 #
 #   dump.sh <kind> <days to keep>      e.g.  dump.sh hourly 1
 #
@@ -10,9 +10,9 @@
 # renames it into place, never changing a file, so a link keeps the photo as it was and costs no space. The photos are copied first:
 # upload writes a photo's files before its row, so every row in the copy has its files. The folder gets its real name only once all
 # of it is whole; old folders of the kind are removed only after a new one succeeded. The secret is not in a dump: on the server it is
-# UPLOAD_SECRET in the deployment's vault.
+# PORTFOLIO_SECRET in the deployment's vault.
 #
-# To restore, with upload stopped (docker compose stop upload; docker compose start upload afterwards):
+# To restore, with upload stopped (docker compose stop portfolio; docker compose start portfolio afterwards):
 #   rm -f data/upload.sqlite-wal data/upload.sqlite-shm data/auth.sqlite-wal data/auth.sqlite-shm
 #   cp data/dumps/<kind>-<time>/upload.sqlite data/dumps/<kind>-<time>/auth.sqlite data/
 #   rm -rf data/photos && cp -a data/dumps/<kind>-<time>/photos data/photos
