@@ -1,0 +1,23 @@
+# vorschau.3dbruckner.de: preview (https://github.com/3D-Bruckner/preview), where customers look at the models made for them, each
+# by their own link. Nothing here is published to the internet: preview listens on the server's private address, where the Caddy on
+# gewerbe-1 passes requests on.
+name: preview
+services:
+  preview:
+    # main until preview has releases: every deployment pulls the newest (pull_policy), so an upgrade is a merge there and a deployment.
+    image: ghcr.io/3d-bruckner/preview:main
+    pull_policy: always
+    container_name: preview
+    restart: unless-stopped
+    mem_limit: 512m
+    # Every setting, secrets included, from .env (see .env.example).
+    env_file: .env
+    # preview.sqlite (customers, models, versions), auth.sqlite (sign-in), files/ (each version's 3MF, preview and drawings),
+    # brand/ (the logo) and dumps/ (scripts/dump.sh). The image runs as the owner of ./data (1000).
+    volumes:
+      - ./data:/data
+    ports:
+      - "${PRIVATE_IP:?this server's address on the private network}:8084:3000"
+    security_opt:
+      - no-new-privileges:true
+    # The image has its own HEALTHCHECK on /health.
